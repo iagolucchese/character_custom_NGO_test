@@ -3,7 +3,12 @@ guid: 7db1f4cabfba9ce49b3482663dadff47
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tank_top
+    second: {fileID: 2100000, guid: e4a0338a47f2edf4a94c3324ea9a5170, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

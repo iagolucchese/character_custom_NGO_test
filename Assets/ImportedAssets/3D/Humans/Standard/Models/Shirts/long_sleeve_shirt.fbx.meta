@@ -3,7 +3,12 @@ guid: 10ab6d36cac4464479ac44803e100221
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: long_sleeve_shirt
+    second: {fileID: 2100000, guid: ddb28985f3789de45ad0816b0f329a05, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

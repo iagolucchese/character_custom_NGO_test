@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace ImportedScripts
 {
@@ -257,10 +260,44 @@ namespace ImportedScripts
         }
         #endregion
         
-        #region Vector Methods
+        #region Vector Extensions
         public static Vector3 ToVector3XZ(this Vector2 vector2)
         {
             return new Vector3(vector2.x, 0, vector2.y);
+        }
+        #endregion
+        
+        #region GameObject Extensions
+        /// <summary>
+        /// Shortcut, editor-only method set this Unity Object as dirty.
+        /// <para>Does not require #IF UNITY_EDITOR, as it will do nothing on builds.</para>
+        /// </summary>
+        public static void SetAsDirty(this UnityEngine.Object obj)
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(obj);
+#endif
+        }
+        
+        /// <summary>
+        /// In runtime, always returns false. In editor-time, returns true if the editor is in prefab mode.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsAPrefab(this GameObject obj)
+        {
+#if UNITY_EDITOR
+#if UNITY_2020
+        PrefabStage prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+#else
+            UnityEditor.SceneManagement.PrefabStage prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
+#endif
+            bool isValidPrefabStage = prefabStage != null && prefabStage.stageHandle.IsValid();
+            bool prefabConnected = PrefabUtility.GetPrefabInstanceStatus(obj) == PrefabInstanceStatus.Connected;
+            return isValidPrefabStage || !prefabConnected;
+#else
+            return false;
+#endif
         }
         #endregion
     }

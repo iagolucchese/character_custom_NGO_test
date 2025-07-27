@@ -3,24 +3,24 @@ using UnityEngine.Events;
 
 namespace CharacterCustomNGO.Utils
 {
-    [RequireComponent(typeof(Collider2D))]
-    public class Trigger2DEventSender : MonoBehaviour
+    [RequireComponent(typeof(Collider))]
+    public class TriggerEventSender : MonoBehaviour
     {
         public UnityEvent onEnter;
         public UnityEvent onStay;
         public UnityEvent onExit;
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter(Collider other)
         {
             onEnter?.Invoke();
         }
 
-        private void OnTriggerStay2D(Collider2D other)
+        private void OnTriggerStay(Collider other)
         {
             onStay?.Invoke();
         }
 
-        private void OnTriggerExit2D(Collider2D other)
+        private void OnTriggerExit(Collider other)
         {
             onExit?.Invoke();
         }
