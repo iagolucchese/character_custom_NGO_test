@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e71533cbb6bf43c5b5c6fe5f5a151da9, type: 3}
+  m_Name: HairStyle2_EQP
+  m_EditorClassIdentifier: 
+  itemCost: 20
+  itemSellValue: 5
+  itemName: Hair Style 2
+  itemIcon: {fileID: 0}
+  outfitMesh: {fileID: -6885527757345157577, guid: c42a28d149464a34c89bff92f343800d, type: 3}
+  outfitMaterial: {fileID: 2100000, guid: cb30a37ec15c80941873506b57db0dd9, type: 2}
+  outfitShaderOffset: {x: 0, y: 0}
+  validSlots:
+  - {fileID: 11400000, guid: 0c4e3533de6353b439eb1ba23a8e6346, type: 2}
+  hidesOtherSlots: []
