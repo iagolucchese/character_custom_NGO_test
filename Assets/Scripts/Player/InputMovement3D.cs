@@ -2,13 +2,14 @@
 using CharacterCustomNGO.UI;
 using ImportedScripts;
 using NaughtyAttributes;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 
 namespace CharacterCustomNGO
 {
-    public class InputMovement3D : MonoBehaviour
+    public class InputMovement3D : NetworkBehaviour
     {
         [Header("Movement Parameters")]
         [SerializeField, Min(0f)] private float moveSpeed = 2f;
@@ -35,21 +36,23 @@ namespace CharacterCustomNGO
             Assert.IsNotNull(movementAction);
             Assert.IsNotNull(movementAction.action);
             Assert.IsNotNull(rigidbody);
-            
             movementAction.action.Enable();
             moveInput = Vector2.zero;
             movementMagnitude = 0f;
         }
 
-        private void Start()
+        public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+            
             MovementLocks = 0;
             ScreenManagerBase.OnScreenOpened += AddMovementLock;
             ScreenManagerBase.OnScreenClosed += RemoveMovementLock;
         }
 
-        private void OnDestroy()
+        public override void OnNetworkDespawn()
         {
+            base.OnNetworkDespawn();
             ScreenManagerBase.OnScreenOpened -= AddMovementLock;
             ScreenManagerBase.OnScreenClosed -= RemoveMovementLock;
         }

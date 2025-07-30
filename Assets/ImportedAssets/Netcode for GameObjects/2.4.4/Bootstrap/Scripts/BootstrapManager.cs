@@ -25,10 +25,10 @@ namespace Unity.Netcode.Samples
                     networkManager.StartClient();
                 }
 
-                if (GUILayout.Button("Server"))
+                /*if (GUILayout.Button("Server"))
                 {
                     networkManager.StartServer();
-                }
+                }*/
             }
             else
             {
