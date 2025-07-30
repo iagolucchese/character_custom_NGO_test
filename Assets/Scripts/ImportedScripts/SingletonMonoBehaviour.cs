@@ -15,7 +15,7 @@ namespace ImportedScripts
             {
                 if (instance != null) return instance;
                 
-                instance = (T)FindObjectOfType(typeof(T));
+                instance = (T)FindFirstObjectByType(typeof(T));
                 if (instance != null) return instance;
 
                 GameObject newGo = new GameObject

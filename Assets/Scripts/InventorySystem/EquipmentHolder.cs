@@ -1,12 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ImportedScripts;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace CharacterCustomNGO
 {
-    public class EquipmentHolder : MonoBehaviour
+    [System.Serializable]
+    public class SlotEquipmentPair
+    {
+        public EquipmentSlot slot;
+        public EquipmentReference itemRef;
+
+        public SlotEquipmentPair(EquipmentSlot slot, ItemEquipmentAsset item)
+        {
+            this.slot = slot;
+            itemRef = new(item);
+        }
+    }
+    
+    public class EquipmentHolder : NetworkBehaviour
     {
         public delegate void EquipmentEvent(EquipmentHolder holder, EquipmentSlot slot, ItemEquipmentAsset equipmentAsset);
         public event EquipmentEvent OnItemEquipped;
@@ -14,20 +27,33 @@ namespace CharacterCustomNGO
 
         [SerializeField] private InventoryHolder inventoryHolder;
         [SerializeField] private List<SlotEquipmentPair> equipmentSlots;
-
+        
         public List<SlotEquipmentPair> EquipmentSlots => equipmentSlots;
 
         #region Unity Messages
-        private void OnEnable()
+        private void Awake()
         {
             Assert.IsTrue(equipmentSlots.IsValidAndNotEmpty());
+        }
 
-            inventoryHolder.OnItemRemoved += InventoryItemRemovedCallback;
+        protected override void OnNetworkPostSpawn()
+        {
+            base.OnNetworkPostSpawn();
+            if (IsOwner)
+                inventoryHolder.OnItemRemoved += InventoryItemRemovedCallback;
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            if (inventoryHolder != null)
+                inventoryHolder.OnItemRemoved -= InventoryItemRemovedCallback;
         }
 
         private void OnValidate()
         {
             if (Application.isPlaying) return;
+            if (gameObject.IsAPrefab()) return;
             ValidateEquipment();
         }
         #endregion
@@ -36,17 +62,40 @@ namespace CharacterCustomNGO
         public bool TryEquipItem(ItemEquipmentAsset newItem)
         {
             if (newItem == null) return false;
-            foreach (SlotEquipmentPair slotPair in equipmentSlots)
+            
+            RequestEquipItemRpc(new(newItem));
+            return true;
+            /*foreach (SlotEquipmentPair slotPair in equipmentSlots)
             {
                 if (newItem.ValidSlots.Contains(slotPair.slot) == false) continue;
 
                 return EquipItemToSlot(newItem, slotPair.slot);
             }
 
-            return false;
+            return false;*/
+        }
+
+        //[Rpc(SendTo.Server)]
+        [Rpc(SendTo.ClientsAndHost)]
+        private void RequestEquipItemRpc(EquipmentReference itemRef, RpcParams rpcParams = default)
+        {
+            Debug.Log($"Requested Equip Item. Sender: {rpcParams.Receive.SenderClientId}");
+
+            if (itemRef == null || itemRef.equipment == null)
+            {
+                Debug.Log($"Received item is null. Sender: {rpcParams.Receive.SenderClientId}");
+                return;
+            }
+            foreach (SlotEquipmentPair slotPair in equipmentSlots)
+            {
+                if (itemRef.equipment.ValidSlots.Contains(slotPair.slot) == false) continue;
+
+                EquipItemToSlot(itemRef, slotPair.slot);
+                Debug.Log($"Item Equipped. Sender: {rpcParams.Receive.SenderClientId}");
+            }
         }
         
-        public bool EquipItemToSlot(ItemEquipmentAsset newItem, EquipmentSlot slot)
+        private bool EquipItemToSlot(ItemEquipmentAsset newItem, EquipmentSlot slot)
         {
             if (newItem == null || slot == null) return false;
             foreach (SlotEquipmentPair slotPair in equipmentSlots)
@@ -54,9 +103,9 @@ namespace CharacterCustomNGO
                 if (slotPair.slot != slot) continue;
                 if (newItem.ValidSlots.Contains(slot) == false) return false;
                 
-                if (slotPair.item != null) 
-                    OnItemUnequipped?.Invoke(this, slotPair.slot, slotPair.item);
-                slotPair.item = newItem;
+                if (slotPair.itemRef != null) 
+                    OnItemUnequipped?.Invoke(this, slotPair.slot, slotPair.itemRef);
+                slotPair.itemRef = new(newItem);
                 OnItemEquipped?.Invoke(this, slot, newItem);
                 return true;
             }
@@ -70,10 +119,10 @@ namespace CharacterCustomNGO
             foreach (SlotEquipmentPair slotPair in equipmentSlots)
             {
                 if (slotPair.slot != slot) continue;
-                if (slotPair.item != null)
+                if (slotPair.itemRef != null)
                 {
-                    slotPair.item = null;
-                    OnItemUnequipped?.Invoke(this, slotPair.slot, slotPair.item);
+                    slotPair.itemRef = null;
+                    OnItemUnequipped?.Invoke(this, slotPair.slot, slotPair.itemRef);
                     return true;
                 }
                 return false;
@@ -86,9 +135,9 @@ namespace CharacterCustomNGO
             if (item == null) return false;
             foreach (SlotEquipmentPair slotPair in equipmentSlots)
             {
-                if (slotPair.item != item) continue;
-                slotPair.item = null;
-                OnItemUnequipped?.Invoke(this, slotPair.slot, slotPair.item);
+                if (slotPair.itemRef.equipment != item) continue;
+                slotPair.itemRef = null;
+                OnItemUnequipped?.Invoke(this, slotPair.slot, slotPair.itemRef);
                 return true;
             }
             return false;
@@ -99,7 +148,7 @@ namespace CharacterCustomNGO
             if (item == null) return false;
             foreach (SlotEquipmentPair slotPair in equipmentSlots)
             {
-                if (slotPair.item == item)
+                if (slotPair.itemRef.equipment == item)
                     return true;
             }
             return false;
@@ -117,8 +166,9 @@ namespace CharacterCustomNGO
         {
             foreach (SlotEquipmentPair pair in equipmentSlots)
             {
-                if (pair.item.ValidSlots.Contains(pair.slot) == false) 
-                    pair.item = null;
+                if (pair == null) continue;
+                if (pair.itemRef.equipment.ValidSlots.Contains(pair.slot) == false) 
+                    pair.itemRef = null;
             }
         }
         

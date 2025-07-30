@@ -13,6 +13,8 @@ namespace Unity.Netcode.Samples
             GUILayout.BeginArea(new Rect(10, 10, 300, 300));
 
             var networkManager = NetworkManager.Singleton;
+            if (networkManager == null) return;
+            
             if (!networkManager.IsClient && !networkManager.IsServer)
             {
                 if (GUILayout.Button("Host"))

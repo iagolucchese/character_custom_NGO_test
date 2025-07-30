@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace CharacterCustomNGO
@@ -18,5 +19,37 @@ namespace CharacterCustomNGO
         public Vector2 OutfitShaderOffset => outfitShaderOffset;
         public List<EquipmentSlot> ValidSlots => validSlots;
         public List<EquipmentSlot> HidesOtherSlots => hidesOtherSlots;
+    }
+
+    [System.Serializable]
+    public class EquipmentReference : INetworkSerializable
+    {
+        public ItemEquipmentAsset equipment;
+
+        public EquipmentReference()
+        {
+            equipment = null;
+        }
+        public EquipmentReference(ItemEquipmentAsset equipment)
+        {
+            this.equipment = equipment;
+        }
+        
+        public static implicit operator ItemEquipmentAsset(EquipmentReference equipRef) => equipRef.equipment;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            if (serializer.IsReader)
+            {
+                serializer.GetFastBufferReader().ReadValueSafe(out string assetName);
+                equipment = Resources.Load<ItemEquipmentAsset>("Equipments/" + assetName); //new AssetReference(assetName);
+            }
+            else 
+            {
+                serializer.GetFastBufferWriter().WriteValueSafe(equipment.name);
+            }
+            /*ItemEquipmentAsset assetRef = this;
+            serializer.SerializeValue(ref assetRef);*/
+        }
     }
 }

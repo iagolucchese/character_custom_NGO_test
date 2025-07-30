@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3164092641
+  GlobalObjectIdHash: 2131729030
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8722938d79394ac3b3a0fbd963798475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   inventoryHolder: {fileID: 3993621858266890145}
   equipmentSlots:
   - slot: {fileID: 11400000, guid: 0c4e3533de6353b439eb1ba23a8e6346, type: 2}
@@ -309,12 +310,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 2
+  moveSpeed: 4
   movementAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   rigidbody: {fileID: 3754127297053017096}
-  moveInput: {x: 0, y: 0}
   movementMagnitude: 0
   movementLocks: 0
+  moveInputNetwork:
+    m_InternalValue: {x: 0, y: 0}
 --- !u!136 &4876498243694427178
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -444,6 +446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6005698590025495856}
   - component: {fileID: 287184849839640830}
+  - component: {fileID: 8187632943287608301}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -490,6 +493,20 @@ MonoBehaviour:
     outfitRenderer: {fileID: 7390811001744231863}
   - slot: {fileID: 11400000, guid: 6245bab6ff6012341a9c4face7f09aff, type: 2}
     outfitRenderer: {fileID: 4002195213486670833}
+--- !u!114 &8187632943287608301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5790579999683199551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1703de03734480e9b6f71b4252d28b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputMovement: {fileID: 2394092478374119532}
+  rotateSpeed: 9
 --- !u!1 &6755094102169633956
 GameObject:
   m_ObjectHideFlags: 0

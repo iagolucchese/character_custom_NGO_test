@@ -1,5 +1,4 @@
-﻿using System;
-using CharacterCustomNGO.UI;
+﻿using CharacterCustomNGO.UI;
 using ImportedScripts;
 using NaughtyAttributes;
 using Unity.Netcode;
@@ -17,9 +16,11 @@ namespace CharacterCustomNGO
         [SerializeField] private InputActionReference movementAction;
         [SerializeField] private new Rigidbody rigidbody;
         [Header("Debug")]
-        [SerializeField, ReadOnly] private Vector2 moveInput;
+        //[SerializeField, ReadOnly] private Vector2 moveInput;
         [SerializeField, ReadOnly] private float movementMagnitude;
         [SerializeField, ReadOnly] private int movementLocks;
+        
+        public NetworkVariable<Vector2> moveInputNetwork = new();
 
         public int MovementLocks
         {
@@ -27,7 +28,7 @@ namespace CharacterCustomNGO
             set => movementLocks = value < 0 ? 0 : value;
         }
         public bool IsMovementLocked => MovementLocks > 0;
-        public Vector2 MoveInput => moveInput;
+        public Vector2 MoveInput => moveInputNetwork.Value;//moveInput;
         public float MovementMagnitude => movementMagnitude;
 
         #region Unity Messages
@@ -36,15 +37,16 @@ namespace CharacterCustomNGO
             Assert.IsNotNull(movementAction);
             Assert.IsNotNull(movementAction.action);
             Assert.IsNotNull(rigidbody);
-            movementAction.action.Enable();
-            moveInput = Vector2.zero;
-            movementMagnitude = 0f;
         }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
             
+            movementAction.action.Enable();
+            //moveInput = Vector2.zero;
+            moveInputNetwork.Value = Vector2.zero;
+            movementMagnitude = 0f;
             MovementLocks = 0;
             ScreenManagerBase.OnScreenOpened += AddMovementLock;
             ScreenManagerBase.OnScreenClosed += RemoveMovementLock;
@@ -59,6 +61,7 @@ namespace CharacterCustomNGO
 
         private void FixedUpdate()
         {
+            if (!IsOwner) return;
             PlayerMovementLoop();
         }
 
@@ -74,13 +77,14 @@ namespace CharacterCustomNGO
         
         private void PlayerMovementLoop()
         {
-            moveInput = movementAction.action.ReadValue<Vector2>();
-            movementMagnitude = moveInput.magnitude;
+            //moveInput = movementAction.action.ReadValue<Vector2>();
+            moveInputNetwork.Value = movementAction.action.ReadValue<Vector2>();
+            movementMagnitude = moveInputNetwork.Value.magnitude;
             if (movementMagnitude <= 0f) return;
             if (IsMovementLocked) return;
 
-            Vector3 moveVector = moveInput.ToVector3XZ();
-            Vector2 movementTargetPosition = rigidbody.position + (moveVector * (moveSpeed * Time.fixedDeltaTime));
+            Vector3 moveVector = moveInputNetwork.Value.ToVector3XZ();
+            Vector3 movementTargetPosition = rigidbody.position + (moveVector * (moveSpeed * Time.fixedDeltaTime));
             rigidbody.MovePosition(movementTargetPosition);
         }
         #endregion

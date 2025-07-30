@@ -13,11 +13,12 @@ namespace CharacterCustomNGO
         {
             public EquipmentSlot slot;
             public Renderer outfitRenderer;
-            //public Material outfitMaterial;
         }
         
         [SerializeField] private EquipmentHolder equipmentHolder;
         [SerializeField] private List<EquipSlotVisual> slotPairs;
+        [Header("Debug")] 
+        [SerializeField] private ItemEquipmentAsset debugItem;
         
         #region Unity Messages
         private void Awake()
@@ -44,6 +45,12 @@ namespace CharacterCustomNGO
         #endregion
 
         #region Private Methods
+        [Button(enabledMode:EButtonEnableMode.Playmode)]
+        public void EquipDebugItem()
+        {
+            equipmentHolder.TryEquipItem(debugItem);
+        }
+        
         [Button]
         private void UpdateAllOutfits()
         {
@@ -51,9 +58,9 @@ namespace CharacterCustomNGO
             foreach (SlotEquipmentPair slotPair in equipmentHolder.EquipmentSlots)
             {
                 if (slotPair == null) continue;
-                UpdateOutfitVisualForSlot(slotPair.slot, slotPair.item);
-                if (slotPair.item != null)
-                    slotsToHide.AddIfNew(slotPair.item.HidesOtherSlots);
+                UpdateOutfitVisualForSlot(slotPair.slot, slotPair.itemRef);
+                if (slotPair.itemRef?.equipment != null)
+                    slotsToHide.AddIfNew(slotPair.itemRef.equipment.HidesOtherSlots);
             }
 
             HideSlots(slotsToHide);
