@@ -10,17 +10,20 @@ namespace CharacterCustomNGO
 {
     public class InputMovement3D : NetworkBehaviour
     {
-        [Header("Movement Parameters")]
-        [SerializeField, Min(0f)] private float moveSpeed = 2f;
-        [Header("References")]
-        [SerializeField] private InputActionReference movementAction;
-        [SerializeField] private new Rigidbody rigidbody;
-        [Header("Debug")]
-        //[SerializeField, ReadOnly] private Vector2 moveInput;
-        [SerializeField, ReadOnly] private float movementMagnitude;
-        [SerializeField, ReadOnly] private int movementLocks;
+        private const float MinMoveDelta = 0.00001f;
         
-        public NetworkVariable<Vector2> moveInputNetwork = new();
+        [Header("Movement Parameters")]
+        [SerializeField, Min(0f)] private float moveSpeed = 4f;
+        [Header("References")]
+        [SerializeField, Required] private InputActionReference movementAction;
+        [SerializeField, Required] private Rigidbody rigidbodyRef;
+        [Header("Debug")]
+        [SerializeField, ReadOnly] private Vector2 moveInput;
+        [SerializeField, ReadOnly] private float inputMagnitude;
+        [SerializeField, ReadOnly] private int movementLocks;
+        [SerializeField, ReadOnly] private Vector3 lastMoveDirection;
+        [SerializeField, ReadOnly] private float lastMoveMagnitude;
+        [SerializeField, ReadOnly] private Vector3 lastPosition;
 
         public int MovementLocks
         {
@@ -28,25 +31,28 @@ namespace CharacterCustomNGO
             set => movementLocks = value < 0 ? 0 : value;
         }
         public bool IsMovementLocked => MovementLocks > 0;
-        public Vector2 MoveInput => moveInputNetwork.Value;//moveInput;
-        public float MovementMagnitude => movementMagnitude;
+        public Vector2 MoveInput => moveInput;
+        public Vector3 LastMoveDirection => lastMoveDirection;
+        public bool IsMoving => !IsMovementLocked && lastMoveMagnitude > MinMoveDelta;
 
         #region Unity Messages
         private void Awake()
         {
             Assert.IsNotNull(movementAction);
             Assert.IsNotNull(movementAction.action);
-            Assert.IsNotNull(rigidbody);
+            Assert.IsNotNull(rigidbodyRef);
         }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+
+            if (!IsOwner) return;
             
             movementAction.action.Enable();
-            //moveInput = Vector2.zero;
-            moveInputNetwork.Value = Vector2.zero;
-            movementMagnitude = 0f;
+            //moveInputNetwork.Value = Vector2.zero;
+            lastMoveDirection = Vector3.zero;
+            lastMoveMagnitude = inputMagnitude = 0f;
             MovementLocks = 0;
             ScreenManagerBase.OnScreenOpened += AddMovementLock;
             ScreenManagerBase.OnScreenClosed += RemoveMovementLock;
@@ -61,13 +67,14 @@ namespace CharacterCustomNGO
 
         private void FixedUpdate()
         {
-            if (!IsOwner) return;
-            PlayerMovementLoop();
+            if (IsOwner)
+                PlayerMovementLoop();
+            CalculateMovementDelta();
         }
 
         private void Reset()
         {
-            rigidbody = GetComponentInChildren<Rigidbody>();
+            rigidbodyRef = GetComponentInChildren<Rigidbody>();
         }
         #endregion
 
@@ -77,15 +84,26 @@ namespace CharacterCustomNGO
         
         private void PlayerMovementLoop()
         {
-            //moveInput = movementAction.action.ReadValue<Vector2>();
-            moveInputNetwork.Value = movementAction.action.ReadValue<Vector2>();
-            movementMagnitude = moveInputNetwork.Value.magnitude;
-            if (movementMagnitude <= 0f) return;
+            moveInput = movementAction.action.ReadValue<Vector2>();
+            //moveInputNetwork.Value = movementAction.action.ReadValue<Vector2>();
+            inputMagnitude = moveInput.magnitude;
+            if (inputMagnitude <= 0f) return;
             if (IsMovementLocked) return;
 
-            Vector3 moveVector = moveInputNetwork.Value.ToVector3XZ();
-            Vector3 movementTargetPosition = rigidbody.position + (moveVector * (moveSpeed * Time.fixedDeltaTime));
-            rigidbody.MovePosition(movementTargetPosition);
+            Vector3 moveVector = moveInput.ToVector3XZ();
+            Vector3 movementTargetPosition = rigidbodyRef.position + (moveVector * (moveSpeed * Time.fixedDeltaTime));
+            rigidbodyRef.MovePosition(movementTargetPosition);
+        }
+
+        private void CalculateMovementDelta()
+        {
+            Vector3 currentPosition = rigidbodyRef.position;
+            Vector3 moveDelta = currentPosition - lastPosition;
+            lastMoveMagnitude = moveDelta.magnitude;
+            if (lastMoveMagnitude > Mathf.Epsilon)
+                lastMoveDirection = moveDelta.normalized;
+            
+            lastPosition = currentPosition;
         }
         #endregion
     }

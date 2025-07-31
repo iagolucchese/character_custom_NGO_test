@@ -15,7 +15,7 @@ namespace ImportedScripts
         public event ColliderEvent OnStay;
         public event ColliderEvent OnExit;
 
-        [SerializeField] private new Collider collider;
+        [SerializeField] private Collider colliderRef;
         [Tooltip("Leave empty to avoid checking for tag.")]
         [SerializeField] private string checkVsTag = string.Empty;
         [SerializeField] private bool triggerOncePerSession;
@@ -35,11 +35,11 @@ namespace ImportedScripts
         private float delayCounter;
         private bool triggeredDelayedEnter;
 
-        public Bounds TriggerBounds => collider.bounds;
+        public Bounds TriggerBounds => colliderRef.bounds;
         public bool TriggerEnabled
         {
-            get => collider.enabled;
-            set => collider.enabled = value;
+            get => colliderRef.enabled;
+            set => colliderRef.enabled = value;
         }
         public int ObjectsInsideTrigger
         {
@@ -57,7 +57,7 @@ namespace ImportedScripts
         #region Unity Messages
         private void Awake()
         {
-            Assert.IsNotNull(collider);
+            Assert.IsNotNull(colliderRef);
         }
 
         private void Update()
@@ -67,12 +67,12 @@ namespace ImportedScripts
 
         private void OnValidate()
         {
-            Assert.IsNotNull(collider);
+            Assert.IsNotNull(colliderRef);
         }
 
         private void Reset()
         {
-            collider = GetComponent<Collider>();
+            colliderRef = GetComponent<Collider>();
         }
         
         private void OnDrawGizmos()

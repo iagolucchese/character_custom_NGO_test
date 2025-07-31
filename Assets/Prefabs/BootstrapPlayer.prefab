@@ -130,7 +130,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3439633038736913158}
   - component: {fileID: 3439633038736912634}
-  - component: {fileID: 6046305264893698362}
   - component: {fileID: 4344923230987261007}
   - component: {fileID: 3993621858266890145}
   - component: {fileID: 2776227185612554462}
@@ -187,19 +186,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &6046305264893698362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3439633038736912633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aaab5fe31dc3423e89747f088d7bcaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &4344923230987261007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,9 +202,11 @@ MonoBehaviour:
   inventoryHolder: {fileID: 3993621858266890145}
   equipmentSlots:
   - slot: {fileID: 11400000, guid: 0c4e3533de6353b439eb1ba23a8e6346, type: 2}
-    item: {fileID: 0}
+    itemRef:
+      equipment: {fileID: 0}
   - slot: {fileID: 11400000, guid: 6245bab6ff6012341a9c4face7f09aff, type: 2}
-    item: {fileID: 0}
+    itemRef:
+      equipment: {fileID: 0}
 --- !u!114 &3993621858266890145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,11 +300,13 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 4
   movementAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  rigidbody: {fileID: 3754127297053017096}
-  movementMagnitude: 0
+  rigidbodyRef: {fileID: 3754127297053017096}
+  moveInput: {x: 0, y: 0}
+  inputMagnitude: 0
   movementLocks: 0
-  moveInputNetwork:
-    m_InternalValue: {x: 0, y: 0}
+  lastMoveDirection: {x: 0, y: 0, z: 0}
+  lastMoveMagnitude: 0
+  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!136 &4876498243694427178
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -362,7 +352,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
@@ -493,6 +483,7 @@ MonoBehaviour:
     outfitRenderer: {fileID: 7390811001744231863}
   - slot: {fileID: 11400000, guid: 6245bab6ff6012341a9c4face7f09aff, type: 2}
     outfitRenderer: {fileID: 4002195213486670833}
+  debugItem: {fileID: 0}
 --- !u!114 &8187632943287608301
 MonoBehaviour:
   m_ObjectHideFlags: 0

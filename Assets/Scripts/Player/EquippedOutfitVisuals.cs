@@ -46,7 +46,7 @@ namespace CharacterCustomNGO
 
         #region Private Methods
         [Button(enabledMode:EButtonEnableMode.Playmode)]
-        public void EquipDebugItem()
+        private void EquipDebugItem()
         {
             equipmentHolder.TryEquipItem(debugItem);
         }
