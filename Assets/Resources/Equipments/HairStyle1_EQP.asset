@@ -15,7 +15,7 @@ MonoBehaviour:
   itemCost: 10
   itemSellValue: 5
   itemName: Hair Style 1
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: ec3f5c9d06947e7458e9626551938feb, type: 3}
   outfitMesh: {fileID: -2567650555017132842, guid: 85fb5d0c561b4d14589b52ce9c8c6d58, type: 3}
   outfitMaterial: {fileID: 2100000, guid: cb30a37ec15c80941873506b57db0dd9, type: 2}
   outfitShaderOffset: {x: 0, y: 0}

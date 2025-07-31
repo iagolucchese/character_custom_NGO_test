@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 1033237946577151690}
   m_Layer: 0
   m_Name: BootstrapPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,7 +219,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84bb673cca2046e7b3fe2625d1a4cff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemsOnInventory: []
+  ShowTopMostFoldoutHeaderGroup: 1
+  itemsOnInventory:
+  - {fileID: 11400000, guid: ca427d92b6c41d248a6e78d12257488b, type: 2}
+  - {fileID: 11400000, guid: df157fbb5e1bd2041b9a9aadc989f520, type: 2}
+  - {fileID: 11400000, guid: 342da0991cb8ed24bba3837dadba0015, type: 2}
+  - {fileID: 11400000, guid: ddd5824f197d6a74cb5b6d282545731e, type: 2}
   startingCash: 100
   moneyOnHand: 0
 --- !u!114 &2776227185612554462
@@ -299,7 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 4
-  movementAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  movementAction: {fileID: -7512779594774142179, guid: 465f8ebc6e711c445a5d54e25cb83773, type: 3}
   rigidbodyRef: {fileID: 3754127297053017096}
   moveInput: {x: 0, y: 0}
   inputMagnitude: 0

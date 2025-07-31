@@ -15,7 +15,7 @@ MonoBehaviour:
   itemCost: 25
   itemSellValue: 5
   itemName: Outfit 2
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: ec3f5c9d06947e7458e9626551938feb, type: 3}
   outfitMesh: {fileID: -6932478202874304102, guid: 10ab6d36cac4464479ac44803e100221, type: 3}
   outfitMaterial: {fileID: 2100000, guid: ddb28985f3789de45ad0816b0f329a05, type: 2}
   outfitShaderOffset: {x: 0, y: 0}
