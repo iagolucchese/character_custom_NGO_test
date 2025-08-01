@@ -38,7 +38,8 @@ namespace CharacterCustomNGO.UI
                 //itemSellValueText.text = item.ItemSellValue.ToString();
                 itemNameText.text = item.ItemName;
             }
-            sellValueFrame.SetActive(showFrame);
+            if (sellValueFrame)
+                sellValueFrame.SetActive(showFrame);
         }
 
         public void SetIcon(Sprite newIcon)

@@ -130,11 +130,12 @@ GameObject:
   m_Component:
   - component: {fileID: 3439633038736913158}
   - component: {fileID: 3439633038736912634}
+  - component: {fileID: 5218810332491581658}
   - component: {fileID: 4344923230987261007}
   - component: {fileID: 3993621858266890145}
+  - component: {fileID: 2394092478374119532}
   - component: {fileID: 2776227185612554462}
   - component: {fileID: 7105639173595385439}
-  - component: {fileID: 2394092478374119532}
   - component: {fileID: 4876498243694427178}
   - component: {fileID: 3754127297053017096}
   - component: {fileID: 1033237946577151690}
@@ -186,6 +187,19 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &5218810332491581658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3439633038736912633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c79b2ea16c84ce4af54d45bc4b573a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!114 &4344923230987261007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,14 +233,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84bb673cca2046e7b3fe2625d1a4cff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
   itemsOnInventory:
   - {fileID: 11400000, guid: ca427d92b6c41d248a6e78d12257488b, type: 2}
   - {fileID: 11400000, guid: df157fbb5e1bd2041b9a9aadc989f520, type: 2}
-  - {fileID: 11400000, guid: 342da0991cb8ed24bba3837dadba0015, type: 2}
-  - {fileID: 11400000, guid: ddd5824f197d6a74cb5b6d282545731e, type: 2}
-  startingCash: 100
+  startingCash: 150
   moneyOnHand: 0
+--- !u!114 &2394092478374119532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3439633038736912633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06653631d02e4b0cb2cb5c9e2751e089, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  moveSpeed: 4
+  movementAction: {fileID: -7512779594774142179, guid: 465f8ebc6e711c445a5d54e25cb83773, type: 3}
+  rigidbodyRef: {fileID: 3754127297053017096}
+  moveInput: {x: 0, y: 0}
+  inputMagnitude: 0
+  movementLocks: 0
+  lastMoveDirection: {x: 0, y: 0, z: 0}
+  lastMoveMagnitude: 0
+  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &2776227185612554462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,28 +323,6 @@ MonoBehaviour:
   UseRigidBodyForMotion: 0
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
---- !u!114 &2394092478374119532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3439633038736912633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06653631d02e4b0cb2cb5c9e2751e089, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 4
-  movementAction: {fileID: -7512779594774142179, guid: 465f8ebc6e711c445a5d54e25cb83773, type: 3}
-  rigidbodyRef: {fileID: 3754127297053017096}
-  moveInput: {x: 0, y: 0}
-  inputMagnitude: 0
-  movementLocks: 0
-  lastMoveDirection: {x: 0, y: 0, z: 0}
-  lastMoveMagnitude: 0
-  lastPosition: {x: 0, y: 0, z: 0}
 --- !u!136 &4876498243694427178
 CapsuleCollider:
   m_ObjectHideFlags: 0

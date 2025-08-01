@@ -1,34 +1,46 @@
-﻿using System;
+﻿using NaughtyAttributes;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace CharacterCustomNGO.UI
 {
-    public class InventoryMoneyText : MonoBehaviour
+    public class InventoryMoneyText : ScreenManagerBase
     {
-        [SerializeField] private InventoryHolder inventoryHolder;
         [SerializeField] private TMP_Text moneyText;
         [SerializeField] private string moneyPrefix;
-        
+        [SerializeField, ReadOnly] private InventoryHolder inventoryHolder;
+
         #region Unity Messages
-        private void Awake()
+        protected override void Awake()
         {
-            Assert.IsNotNull(inventoryHolder);
+            base.Awake();
+            //Assert.IsNotNull(inventoryHolder);
             Assert.IsNotNull(moneyText);
 
-            inventoryHolder.OnMoneyValueChanged += MoneyValueChangedCallback;
+            PlayerNetwork.OnPlayerSpawned += HandlePlayerSpawn;
         }
-        private void OnDestroy()
+
+        protected override void OnDestroy()
         {
-            if (inventoryHolder != null)
-            {
+            base.OnDestroy();
+            PlayerNetwork.OnPlayerSpawned -= HandlePlayerSpawn;
+            if (inventoryHolder != null) 
                 inventoryHolder.OnMoneyValueChanged -= MoneyValueChangedCallback;
-            }
         }
         #endregion
 
         #region Private Methods
+        private void HandlePlayerSpawn(NetworkObject playerNO)
+        {
+            if (inventoryHolder)
+                inventoryHolder.OnMoneyValueChanged -= MoneyValueChangedCallback;
+
+            if (playerNO.TryGetComponent(out inventoryHolder)) 
+                inventoryHolder.OnMoneyValueChanged += MoneyValueChangedCallback;
+        }
+        
         private void MoneyValueChangedCallback(InventoryHolder holder)
         {
             moneyText.text = $"{moneyPrefix}{holder.MoneyOnHand}";

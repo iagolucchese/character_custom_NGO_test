@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ImportedScripts;
+using NaughtyAttributes;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -13,32 +14,16 @@ namespace CharacterCustomNGO.UI
         
         [SerializeField] private ItemClickCallback itemClickCallback;
         [SerializeField] private List<InventoryItemUI> allInventorySlots;
-        private InventoryHolder inventory;
-        private EquipmentHolder equipmentHolder;
+        [SerializeField, ReadOnly] private InventoryHolder inventory;
+        [SerializeField, ReadOnly] private EquipmentHolder equipmentHolder;
+
+        private bool CanShowInventory => inventory != null && equipmentHolder != null;
         
         #region Unity Messages
         protected override void Awake()
         {
             base.Awake();
-            /*Assert.IsNotNull(inventory);
-            Assert.IsNotNull(equipmentHolder);*/
             Assert.IsTrue(allInventorySlots.IsValidAndNotEmpty());
-            
-            /*inventory.OnItemAdded += InventoryItemEventCallback;
-            inventory.OnItemRemoved += InventoryItemEventCallback;
-            InventoryItemUI.OnItemClicked += ItemClickedCallback;*/
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-
-            /*InventoryItemUI.OnItemClicked -= ItemClickedCallback;
-            if (inventory != null)
-            {
-                inventory.OnItemAdded += InventoryItemEventCallback;
-                inventory.OnItemRemoved += InventoryItemEventCallback;
-            }*/
         }
         #endregion
         
@@ -79,6 +64,8 @@ namespace CharacterCustomNGO.UI
             if (show)
             {
                 FindLocalPlayerInventory();
+
+                if (CanShowInventory == false) return;
                 
                 inventory.OnItemAdded += InventoryItemEventCallback;
                 inventory.OnItemRemoved += InventoryItemEventCallback;
@@ -120,7 +107,7 @@ namespace CharacterCustomNGO.UI
                         equipmentHolder.ToggleItemEquipped(clickedEquipment);
                     break;
                 case ItemClickCallback.Sell:
-                    inventory.TrySellItem(clickedItem);
+                    inventory.TrySellItemRpc(clickedItem);
                     break;
                 case ItemClickCallback.Nothing:
                 default:

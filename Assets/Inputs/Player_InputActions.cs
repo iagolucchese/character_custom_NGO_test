@@ -123,7 +123,7 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""OpenBag"",
                     ""type"": ""Button"",
                     ""id"": ""99c5656c-f681-4e71-beb9-fcf9b9406a0f"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -357,6 +357,17 @@ public partial class @Player_InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
+                    ""action"": ""OpenBag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3a9e0bf-2596-4cb8-9c84-a108a8d0557d"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""OpenBag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

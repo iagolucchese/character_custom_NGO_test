@@ -42,7 +42,7 @@ namespace CharacterCustomNGO
             if (serializer.IsReader)
             {
                 serializer.GetFastBufferReader().ReadValueSafe(out string assetName);
-                equipment = Resources.Load<ItemEquipmentAsset>("Equipments/" + assetName); //new AssetReference(assetName);
+                equipment = Resources.Load<ItemEquipmentAsset>("Items/" + assetName); //new AssetReference(assetName);
             }
             else 
             {

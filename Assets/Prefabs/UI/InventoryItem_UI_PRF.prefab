@@ -140,7 +140,7 @@ MonoBehaviour:
   itemIconImage: {fileID: 6525335930842033835}
   equippedOverlay: {fileID: 6036934472324157464}
   itemButton: {fileID: 5153189554560404065}
-  sellValueFrame: {fileID: 5975069523292451454}
+  sellValueFrame: {fileID: 0}
   itemNameText: {fileID: 4715444630111520790}
 --- !u!1 &958015930969559445
 GameObject:

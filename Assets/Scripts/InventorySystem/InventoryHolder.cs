@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using ImportedScripts;
 using NaughtyAttributes;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace CharacterCustomNGO
@@ -42,9 +43,12 @@ namespace CharacterCustomNGO
         #endregion
 
         #region Public Methods
-        public bool TrySellItem(ItemAsset item)
+        [Rpc(SendTo.ClientsAndHost)]
+        public bool TrySellItemRpc(ItemAsset item, RpcParams rpcParams = default)
         {
             if (item == null) return false;
+            
+            Debug.Log($"Requested Sell Item. Sender: {rpcParams.Receive.SenderClientId}");
             if (RemoveItemFromInventory(item))
             {
                 MoneyOnHand += item.ItemSellValue;
@@ -53,11 +57,13 @@ namespace CharacterCustomNGO
             return false;
         }
 
-        public bool TryBuyItem(ItemAsset item)
+        [Rpc(SendTo.ClientsAndHost)]
+        public bool TryBuyItemRpc(ItemAsset item, RpcParams rpcParams = default)
         {
             if (item == null) return false;
             if (HasMoneyToBuyItem(item) == false) return false;
             
+            Debug.Log($"Requested Buy Item. Sender: {rpcParams.Receive.SenderClientId}");
             if (AddItemToInventory(item))
             {
                 MoneyOnHand -= item.ItemCost;

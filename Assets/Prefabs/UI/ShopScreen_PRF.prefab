@@ -114,7 +114,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -378,8 +378,6 @@ MonoBehaviour:
   onScreenHide:
     m_PersistentCalls:
       m_Calls: []
-  inventory: {fileID: 0}
-  equipmentHolder: {fileID: 0}
   itemClickCallback: 2
   allInventorySlots:
   - {fileID: 6462535233087682249}
@@ -390,6 +388,8 @@ MonoBehaviour:
   - {fileID: 6040952229252350181}
   - {fileID: 4732818638288551047}
   - {fileID: 1663326832002138698}
+  inventory: {fileID: 0}
+  equipmentHolder: {fileID: 0}
 --- !u!1 &1933840826370879590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1035,8 +1035,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1182624332678911562}
-        m_TargetAssemblyTypeName: ClothesShopToy.UI.PlayerInventoryScreen, Assembly-CSharp
-        m_MethodName: UpdateInventoryIcons
+        m_TargetAssemblyTypeName: CharacterCustomNGO.UI.ScreenManagerBase, Assembly-CSharp
+        m_MethodName: ShowScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1049,8 +1049,7 @@ MonoBehaviour:
   onScreenHide:
     m_PersistentCalls:
       m_Calls: []
-  shopInventory: {fileID: 11400000, guid: c569a5cf7ec197040b08460127b41eeb, type: 2}
-  playerInventory: {fileID: 0}
+  shopInventory: {fileID: 11400000, guid: e8afeb318029f7d4f8bb6f102f92ee41, type: 2}
   allShopItems:
   - {fileID: 2557885238475848800}
   - {fileID: 7377626776017319527}
@@ -1058,6 +1057,7 @@ MonoBehaviour:
   - {fileID: 4842668404902272496}
   - {fileID: 7212072296909230649}
   - {fileID: 770852210776801669}
+  playerInventory: {fileID: 0}
 --- !u!114 &5941382133708765617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,7 +1140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3639281132659183024
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1685,6 +1685,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6927450207586384116}
     m_Modifications:
+    - target: {fileID: 905443652992219657, guid: a6b2f169b8f92484ca9c80b39b30a84b, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 6945860401748487981, guid: a6b2f169b8f92484ca9c80b39b30a84b, type: 3}
       propertyPath: m_Name
       value: CurrentMoneyHUD_PRF
@@ -1862,6 +1866,14 @@ PrefabInstance:
     - target: {fileID: 2068486421673876428, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130474684904335943, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353758632770024648, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 7224961193844893469, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
       propertyPath: m_Name
@@ -2094,6 +2106,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2130474684904335943, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353758632770024648, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 7224961193844893469, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
       propertyPath: m_Name
       value: ShopBuyItemUI_PRF (5)
@@ -2321,6 +2341,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2130474684904335943, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353758632770024648, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 7224961193844893469, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
       propertyPath: m_Name
       value: ShopBuyItemUI_PRF (4)
@@ -2438,6 +2466,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2130474684904335943, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353758632770024648, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 7224961193844893469, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
       propertyPath: m_Name
       value: ShopBuyItemUI_PRF (3)
@@ -2550,6 +2586,14 @@ PrefabInstance:
     - target: {fileID: 2068486421673876428, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130474684904335943, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353758632770024648, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 7224961193844893469, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
       propertyPath: m_Name
@@ -2667,6 +2711,14 @@ PrefabInstance:
     - target: {fileID: 2068486421673876428, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2130474684904335943, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353758632770024648, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 7224961193844893469, guid: 2b0e118789b2d3f47a4b23b3443266c4, type: 3}
       propertyPath: m_Name

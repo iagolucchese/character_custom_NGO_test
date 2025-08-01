@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using ImportedScripts;
+using NaughtyAttributes;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,15 +11,14 @@ namespace CharacterCustomNGO.UI
     public class ShopScreen : ScreenManagerBase
     {
         [SerializeField] private SetOfItems shopInventory;
-        [SerializeField] private InventoryHolder playerInventory;
         [SerializeField] private List<ShopItemUI> allShopItems;
-        
+        [SerializeField, ReadOnly] private InventoryHolder playerInventory;
+
         #region Unity Messages
         protected override void Awake()
         {
             base.Awake();
             Assert.IsNotNull(shopInventory);
-            Assert.IsNotNull(playerInventory);
             Assert.IsTrue(allShopItems.IsValidAndNotEmpty());
 
             ShopItemUI.OnItemClicked += ItemClickedCallback;
@@ -42,14 +43,23 @@ namespace CharacterCustomNGO.UI
             }
 
             ItemAsset clickedItem = shopInventory.ItemSet[clickedItemIndex];
-            playerInventory.TryBuyItem(clickedItem);
+            playerInventory.TryBuyItemRpc(clickedItem);
             UpdateShopInventoryOptions();
         }
 
+        private void FindLocalPlayerInventory()
+        {
+            var localPlayer = NetworkManager.Singleton.LocalClient.PlayerObject;
+            playerInventory = localPlayer.GetComponent<InventoryHolder>();
+        }
+        
         protected override void ToggleScreen(bool show)
         {
             if (show)
+            {
+                FindLocalPlayerInventory();
                 UpdateShopInventoryOptions();
+            }
             base.ToggleScreen(show);
         }
 

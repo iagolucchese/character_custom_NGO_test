@@ -1,4 +1,5 @@
 ﻿using NaughtyAttributes;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace CharacterCustomNGO
@@ -17,5 +18,37 @@ namespace CharacterCustomNGO
         public int ItemSellValue => itemSellValue;
         public string ItemName => itemName;
         public Sprite ItemIcon => itemIcon;
+    }
+    
+    [System.Serializable]
+    public class ItemReference : INetworkSerializable
+    {
+        public ItemAsset item;
+
+        public ItemReference()
+        {
+            item = null;
+        }
+        public ItemReference(ItemAsset item)
+        {
+            this.item = item;
+        }
+        
+        public static implicit operator ItemAsset(ItemReference itemRef) => itemRef.item;
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            if (serializer.IsReader)
+            {
+                serializer.GetFastBufferReader().ReadValueSafe(out string assetName);
+                item = Resources.Load<ItemAsset>("Items/" + assetName); //new AssetReference(assetName);
+            }
+            else 
+            {
+                serializer.GetFastBufferWriter().WriteValueSafe(item.name);
+            }
+            /*ItemEquipmentAsset assetRef = this;
+            serializer.SerializeValue(ref assetRef);*/
+        }
     }
 }
